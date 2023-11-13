@@ -2,20 +2,24 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
      container: {
           flex: 1,
-          color: '#fff',
+          backgroundColor: '#ffff',
+     },
+     logo: {
+          flex: 1,
      },
      form: {
-          flex: 1,
-          flexDirection: 'row',
+          flex: 2,
           alignItems: 'center',
-          width: '80%',
+          alignSelf: 'center',
+          width: '90%',
+          rowGap: 30,
      },
      textInputGroup: {
+          flexDirection: 'row',
           width: '100%',
-          justifyContent: 'center',
-          marginBottom: 20,
      },
      textInput: {
+          width: '100%',
           height: 60,
           borderRadius: 5,
           borderWidth: 1,

@@ -4,122 +4,137 @@ import {
      TouchableOpacity,
      View,
      Text,
-     Image,
      TextInput,
+     Image,
 } from 'react-native';
 import { styles } from './LoginStyle';
-import { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
 
 export const Login = function () {
      const navigation = useNavigation();
      const route = useRoute();
-     const [usetName, settUserName] = useState('');
-     const [passwrod, setPassWord] = useState('');
      const { key, key2 } = route.params || {};
-
+     const [username, setUserName] = useState('');
+     const [password, setPassword] = useState('');
+     const [users, setUsers] = useState([]);
+     useEffect(function () {
+          fetch('http://localhost:3000/api/user')
+               .then((respone) => respone.json())
+               .then((data) => setUsers(data));
+     }, users);
+     console.log('Username -->', username);
+     console.log('Password-->', password);
+     console.log('list user-->', users);
      return (
           <SafeAreaView style={[styles.container]}>
-               <View style={[{ flex: 1 }]}> </View>
-               <View
-                    style={[{ justifyContent: 'center', alignItems: 'center' }]}
-               >
-                    <View style={[styles.form]}>
-                         <View style={[styles.textInputGroup]}>
-                              <Ionicons
-                                   name='people-circle'
-                                   color={'#0000'}
-                                   size={24}
-                                   style={{
-                                        position: 'absolute',
-                                        left: 20,
-                                   }}
-                              />
-                              <TextInput
-                                   placeholder='Enter your Email'
-                                   style={styles.textInput}
-                                   value={null}
-                                   onChangeText={(inputText) =>
-                                        settUserName(inputText)
-                                   }
-                              />
-                         </View>
+               <View style={[styles.logo]}></View>
+               <View style={[styles.form]}>
+                    <View style={[styles.textInputGroup]}>
+                         <Image
+                              source={require('../../assets/img/account.png')}
+                              style={{
+                                   width: 24,
+                                   height: 20,
+                                   position: 'absolute',
+                                   alignSelf: 'center',
+                                   left: 12,
+                              }}
+                              resizeMode='contain'
+                         />
+                         <TextInput
+                              placeholder='Username'
+                              style={styles.textInput}
+                              value={null}
+                              onChangeText={(inputText) =>
+                                   setUserName(inputText)
+                              }
+                         />
                     </View>
-                    <View style={[styles.form]}>
-                         <View style={[styles.textInputGroup]}>
-                              <TextInput
-                                   placeholder='password'
-                                   style={styles.textInput}
-                                   value={null}
-                                   onChangeText={(inputText) =>
-                                        setText(inputText)
-                                   }
-                                   secureTextEntry={true}
-                              />
-                         </View>
+                    <View style={[styles.textInputGroup]}>
+                         <Image
+                              source={require('../../assets/img/password.png')}
+                              style={{
+                                   width: 24,
+                                   height: 20,
+                                   position: 'absolute',
+                                   alignSelf: 'center',
+                                   left: 12,
+                              }}
+                              resizeMode='contain'
+                         />
+                         <TextInput
+                              placeholder='Password'
+                              style={styles.textInput}
+                              value={null}
+                              onChangeText={(inputText) =>
+                                   setPassword(inputText)
+                              }
+                              secureTextEntry={true}
+                         />
                     </View>
-
                     <TouchableOpacity
                          style={{
-                              width: '100%',
+                              width: '50%',
                               height: 60,
                               borderRadius: 5,
-                              backgroundColor: '#F1B000',
+                              backgroundColor: '#17a2b8',
                               justifyContent: 'center',
                               alignItems: 'center',
+                              alignSelf: 'center',
                          }}
                          onPress={() => {
-                              navigation.navigate('LayoutName', {
+                              console.log(username);
+                              console.log(password);
+                              console.log(users);
+                              const checkUser = users.find((value) => {
+                                   if (
+                                        value.username == username &&
+                                        value.password == password
+                                   ) {
+                                        return value;
+                                   }
+                              });
+                              console.log(checkUser);
+                              if (checkUser) {
+                                   navigation.navigate('Home', {
+                                        ...route.params,
+                                        user: checkUser,
+                                   });
+                              }
+                         }}
+                    >
+                         <View>
+                              <Text
+                                   style={{
+                                        color: '#FFFDFD',
+                                        fontSize: 20,
+                                        fontWeight: 'bold',
+                                   }}
+                              >
+                                   LOGIN
+                              </Text>
+                         </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                         onPress={() => {
+                              navigation.navigate('Register', {
                                    ...route.params,
-                                   key: 'Value',
+                                   username: username,
                               });
                          }}
                     >
                          <Text
                               style={{
-                                   color: '#FFFDFD',
-                                   fontSize: 25,
-                                   fontWeight: 'bold',
-                              }}
-                         >
-                              Login
-                         </Text>
-                    </TouchableOpacity>
-               </View>
-               <View
-                    style={[
-                         {
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              flex: 1,
-                         },
-                    ]}
-               >
-                    {/*------------BUTTON STYLE START---------------- */}
-                    <TouchableOpacity
-                         style={{
-                              width: '100%',
-                              height: 60,
-                              borderRadius: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                         }}
-                         onPress={() => {
-                              navigation.navigate('Register');
-                         }}
-                    >
-                         <Text
-                              style={{
                                    color: '#000',
-                                   fontSize: 25,
-                                   fontWeight: 'bold',
+                                   fontSize: 16,
+                                   fontWeight: 500,
                               }}
                          >
                               Register
                          </Text>
                     </TouchableOpacity>
-                    {/*-------------- BUTTON STYLE END-------------*/}
                </View>
+               <View style={[{ flex: 1 }]}> </View>
           </SafeAreaView>
      );
 };

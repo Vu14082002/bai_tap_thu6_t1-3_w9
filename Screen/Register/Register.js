@@ -7,77 +7,105 @@ import {
      TextInput,
 } from 'react-native';
 import { styles } from './RegisterStyle';
+import { useState } from 'react';
 
 export const Register = function () {
      const navigation = useNavigation();
      const route = useRoute();
      const { key, key2 } = route.params || {};
+     const [username, setUserName] = useState('');
+     const [password, setPassword] = useState('');
+     const addUser = async function () {
+          const user = {
+               username: username,
+               password: password,
+               todo: [],
+          };
+          console.log('json server');
+          console.log(user);
+          const resp = await fetch('http://localhost:3000/api/user', {
+               method: 'POST',
+               body: JSON.stringify(user),
+               headers: {
+                    'content-type': 'application/json',
+               },
+          });
+          console.log(await resp.json());
+     };
      return (
           <SafeAreaView style={[styles.container]}>
                <View style={[styles.form]}>
                     <View style={[styles.textInputGroup]}>
                          <TextInput
-                              placeholder='Enter your username'
+                              placeholder='Enter your Username'
                               style={styles.textInput}
                               value={null}
-                              onChangeText={(inputText) => setText(inputText)}
-                              secureTextEntry={true}
+                              onChangeText={(inputText) =>
+                                   setUserName(inputText)
+                              }
                          />
                     </View>
-               </View>
-               <View style={[styles.form]}>
                     <View style={[styles.textInputGroup]}>
                          <TextInput
                               placeholder='Enter your password'
                               style={styles.textInput}
                               value={null}
-                              onChangeText={(inputText) => setText(inputText)}
+                              onChangeText={(inputText) =>
+                                   setPassword(inputText)
+                              }
                               secureTextEntry={true}
                          />
                     </View>
-               </View>
-               <View style={[styles.form]}>
-                    <View style={[styles.textInputGroup]}>
-                         <TextInput
-                              placeholder='Conform your Password'
-                              style={styles.textInput}
-                              value={null}
-                              onChangeText={(inputText) => setText(inputText)}
-                              secureTextEntry={true}
-                         />
-                    </View>
-               </View>{' '}
-               {/*------------BUTTON STYLE START---------------- */}
-               {/* <View style={[{ width: '100%', alignItems: 'center' }]}> */}
-               <TouchableOpacity
-                    style={{
-                         width: '50%',
-                         height: 60,
-                         borderRadius: 5,
-                         backgroundColor: '#F1B000',
-                         justifyContent: 'center',
-                         alignItems: 'center',
-                         alignSelf: 'center',
-                    }}
-                    onPress={() => {
-                         navigation.navigate('LayoutName', {
-                              ...route.params,
-                              key: 'Value',
-                         });
-                    }}
-               >
-                    <Text
+                    <TouchableOpacity
                          style={{
-                              color: '#FFFDFD',
-                              fontSize: 25,
-                              fontWeight: 'bold',
+                              width: '50%',
+                              height: 60,
+                              borderRadius: 5,
+                              backgroundColor: '#17a2b8',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              alignSelf: 'center',
+                         }}
+                         onPress={() => {
+                              addUser();
+                              navigation.navigate('Login', {
+                                   ...route.params,
+                              });
                          }}
                     >
-                         Register
-                    </Text>
-               </TouchableOpacity>{' '}
-               {/* </View> */}
-               {/*-------------- BUTTON STYLE END-------------*/}
+                         <Text
+                              style={{
+                                   color: '#fff',
+                                   fontSize: 25,
+                                   fontWeight: 'bold',
+                              }}
+                         >
+                              Register
+                         </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                         style={{
+                              width: '50%',
+                              height: 60,
+                              borderRadius: 5,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              alignSelf: 'center',
+                         }}
+                         onPress={() => {
+                              navigation.goBack();
+                         }}
+                    >
+                         <Text
+                              style={{
+                                   fontSize: 12,
+                                   fontWeight: 400,
+                              }}
+                         >
+                              Go back
+                         </Text>
+                    </TouchableOpacity>
+               </View>
           </SafeAreaView>
      );
 };

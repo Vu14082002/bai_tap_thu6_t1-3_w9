@@ -1,0 +1,35 @@
+{
+  "user": [
+    {
+      "username": "1",
+      "password": "1",
+      "createdAt": 1699869836348,
+      "id": 1,
+      "todo": []
+    },
+    {
+      "username": "2",
+      "password": "2",
+      "createdAt": 1699875779006,
+      "id": 2,
+      "todo": [
+        "asasasasa",
+        "test data",
+        "test data",
+        "dasdjasdjhasgdas",
+        "asdasdasdas"
+      ]
+    },
+    {
+      "username": "vunguyen",
+      "password": "123456",
+      "todo": [
+        "learn react natvie",
+        "learn js",
+        "learn www"
+      ],
+      "createdAt": 1699885499321,
+      "id": 3
+    }
+  ]
+}

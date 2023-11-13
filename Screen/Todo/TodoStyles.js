@@ -2,21 +2,34 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
      container: {
           flex: 1,
-          backgroundColor: '#ffff',
+     },
+     top: {
+          flex: 1,
+     },
+     welcome: {
+          color: '#17a2b8',
+          fontSize: 23,
+          fontWeight: 700,
+     },
+     body: {
+          flex: 3,
+     },
+     bottom: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
      },
      form: {
-          flex: 1,
           alignItems: 'center',
           alignSelf: 'center',
           width: '100%',
-          justifyContent: 'center',
      },
      textInputGroup: {
           flexDirection: 'row',
-          width: '90%',
-          marginBottom: 30,
+          width: '80%',
      },
      textInput: {
+          // khong thay doi with
           width: '100%',
           height: 60,
           borderRadius: 5,
